@@ -1,10 +1,7 @@
-name: Packer Build
+name: Packer Build AMI
 
 on:
-  #push:
-   # branches:
-    #  - master
-  pull_request:
+  push:
     branches:
       - master
 
@@ -13,28 +10,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Install Packer
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y unzip
-          curl -fsSL -o packer.zip https://releases.hashicorp.com/packer/1.8.4/packer_1.8.4_linux_amd64.zip
-          unzip packer.zip
-          sudo mv packer /usr/local/bin/
-          packer --version
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@v2
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: "ap-southeast-2" # Optionally include this if you're using a specific region
+      # 🔥 IMPORTANT: Clear old cached plugins (fix for your issue)
+      - name: Clean Packer Plugins
+        run: rm -rf ~/.config/packer/plugins
 
-      - name: Run Packer Build
-        run: |
-          packer init aws-ubuntu.pkr.hcl
-          packer validate aws-ubuntu.pkr.hcl
-          packer fmt aws-ubuntu.pkr.hcl
-          packer build aws-ubuntu.pkr.hcl
+      # 🔍 Debug (optional but useful)
+      - name: Check Packer Version
+        run: packer version
+
+      - name: Initialize Packer
+        run: packer init aws-ubuntu.pkr.hcl
+
+      - name: Validate Packer Template
+        run: packer validate aws-ubuntu.pkr.hcl
+
+      - name: Build AMI
+        run: packer build aws-ubuntu.pkr.hcl
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ap-south-1
