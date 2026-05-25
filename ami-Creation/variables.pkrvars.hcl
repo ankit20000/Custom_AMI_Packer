@@ -1,4 +1,5 @@
 ami_name      = "dev-packer-linux-aws-ubuntu"
+environment   = "dev"
 instance_type = "t2.micro"
-region        = "ap-southeast-2"
+region        = "ap-south-1"
 ssh_username  = "ubuntu"

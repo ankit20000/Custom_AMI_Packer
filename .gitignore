@@ -1,0 +1,6 @@
+.DS_Store
+*.log
+packer_cache/
+manifest.json
+crash.log
+crash.*.log

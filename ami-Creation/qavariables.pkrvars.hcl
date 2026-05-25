@@ -1,4 +1,5 @@
 ami_name      = "qas-packer-linux-aws-ubuntu"
+environment   = "qa"
 instance_type = "t2.micro"
-region        = "ap-southeast-2"
+region        = "ap-south-1"
 ssh_username  = "ubuntu"

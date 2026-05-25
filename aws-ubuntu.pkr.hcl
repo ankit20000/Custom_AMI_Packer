@@ -27,6 +27,7 @@ build {
   sources = [
     "source.amazon-ebs.ubuntu"
   ]
+
 }
 
 #packer build -var-file="variables.pkrvars.hcl" .
