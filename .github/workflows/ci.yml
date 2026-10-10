@@ -23,3 +23,6 @@ jobs:
 
       - name: Check Packer formatting
         run: packer fmt -check -recursive ami-Creation
+
+      - name: Validate Packer template
+        run: packer validate -var-file=ami-Creation/variables.pkrvars.hcl ami-Creation/
