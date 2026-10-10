@@ -5,6 +5,9 @@ on:
   push:
     branches:
       - master
+  pull_request:
+    branches:
+      - master
   workflow_dispatch:
 
 jobs:
@@ -15,12 +18,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Show repository information
-        run: |
-          echo "Starting GitHub Actions CI pipeline"
-          echo "Checking repository contents"
-          pwd
-          ls -la
+      - name: Install Packer
+        uses: hashicorp/setup-packer@main
 
-      - name: Validate workflow
-        run: echo "Repository validation completed successfully"
+      - name: Check Packer formatting
+        run: packer fmt -check -recursive ami-Creation
