@@ -27,11 +27,11 @@ build {
   name    = "learn-packer"
   sources = ["source.amazon-ebs.ubuntu"]
 
-provisioner "shell" {
+  provisioner "shell" {
     inline = [
       "echo Installing Updates",
       "sudo apt-get update -y",
       "sudo apt-get install -y nginx"
     ]
   }
-  }
+}
