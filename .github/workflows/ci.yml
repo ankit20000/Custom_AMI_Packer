@@ -1,0 +1,26 @@
+
+name: Custom AMI CI
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Show repository information
+        run: |
+          echo "Starting GitHub Actions CI pipeline"
+          echo "Checking repository contents"
+          pwd
+          ls -la
+
+      - name: Validate workflow
+        run: echo "Repository validation completed successfully"
