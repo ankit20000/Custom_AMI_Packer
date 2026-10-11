@@ -21,6 +21,9 @@ jobs:
       - name: Install Packer
         uses: hashicorp/setup-packer@main
 
+      - name: Show Packer version
+        run: packer version
+
       - name: Initialize Packer plugins
         run: packer init ami-Creation/
 
