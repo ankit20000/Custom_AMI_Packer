@@ -1,0 +1,34 @@
+
+name: Custom AMI CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Packer
+        uses: hashicorp/setup-packer@main
+
+      - name: Show Packer version
+        run: packer version
+
+      - name: Initialize Packer plugins
+        run: packer init ami-Creation/
+
+      - name: Check Packer formatting
+        run: packer fmt -check -recursive ami-Creation
+
+      - name: Validate Packer template
+        run: packer validate -var-file=ami-Creation/variables.pkrvars.hcl ami-Creation/
